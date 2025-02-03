@@ -1,0 +1,118 @@
+@wire(AccountDetail) 
+getAccountHandle({ data, error }) { 
+if (data) { 
+this.AccountData = data.map(account => ({ ...account, OwnerName: account.Owner.Name //Not working this
+}));
+ console.log('Account data: ', this.AccountData); 
+} else if (error) { console.log(error); }
+
+///////////////////////////////////////////////////////////
+
+
+
+if (acc.Owner) {
+    OwnerName = acc.Owner.Name;
+} else {
+    OwnerName = '';
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////||
+
+
+navigateToReport(event) {
+    // Make sure the event is only handled here
+    event.stopPropagation();
+
+    // Navigate to the Contact object's Recent list view.
+    this[NavigationMixin.GenerateUrl]({
+        type: 'standard__recordPage',
+        attributes: {
+            recordId: this.settings.businessStrikesReportId,
+            objectApiName: 'Report',
+            actionName: 'view'
+        },
+        state: { 
+            fv0: this.account.data.fields.Id.value,
+            fv1: event.target.dataset.id
+        } 
+    }).then(url => { window.open(url) });
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+const columns = [
+    { label: 'Name', fieldName: 'Name', editable: true },
+    { label: 'Phone', fieldName: 'Phone', editable: true },
+    { label: 'Owner', fieldName: 'OwnerName', type: 'button', typeAttributes: { 
+        label: { fieldName: 'OwnerName' }, 
+        variant: 'base' 
+    }},
+    {
+        label: 'Actions',
+        type: 'action', // Use a custom data type
+        typeAttributes: {
+            rowActions: [
+                { label: 'Edit', name: 'edit', iconName: 'utility:edit' },
+                { label: 'Preview', name: 'preview', iconName: 'utility:preview' },
+                { label: 'Delete', name: 'delete', iconName: 'utility:delete' }
+            ]
+        }
+    }
+];
+
+
+
+
+
+handleCustomRowAction(event) {
+    const actionName = event.detail.action.name; // The action name (edit, preview, delete)
+    const row = event.detail.row; // Data of the clicked row
+
+    switch (actionName) {
+        case 'edit':
+            this.handleEdit(row);
+            break;
+        case 'preview':
+            this.handlePreview(row);
+            break;
+        case 'delete':
+            this.handleDelete(row);
+            break;
+        default:
+            console.log('Unknown action:', actionName);
+            break;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+
+
+{ label: 'Owner', fieldName: 'OwnerName', type: 'button', typeAttributes: { 
+        label: { fieldName: 'OwnerName' }, 
+        variant: 'base' 
+    }}
